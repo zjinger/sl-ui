@@ -1,5 +1,6 @@
 import { ComponentRef, Type } from "@angular/core";
-import { NzSafeAny } from "ng-zorro-antd/core/types";
+
+export type NzSafeAny = any;
 
 /**
  * 弹出组件事件类型

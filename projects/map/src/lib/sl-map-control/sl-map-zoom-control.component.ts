@@ -29,31 +29,25 @@ import { SlMapBaseControlComponent } from './sl-map-base-control.component';
     <div class="sl-map-zoom">
       <ul>
         <li>
-          <a href="javascript:void(0)" nz-tooltip="Zoom Level">
+          <a href="javascript:void(0)" title="Zoom Level">
             <span>{{ zoom }}</span>
           </a>
         </li>
         <li>
-          <a href="javascript:void(0)" (click)="zoomIn()" nz-tooltip="放大">
-            <span nz-icon nzType="plus" nzTheme="outline"></span>
-          </a>
+          <a href="javascript:void(0)" (click)="zoomIn()" title="放大"> + </a>
         </li>
         <li>
-          <a href="javascript:void(0)" (click)="zoomOut()" nz-tooltip="缩小">
-            <span nz-icon nzType="minus" nzTheme="outline"></span>
-          </a>
+          <a href="javascript:void(0)" (click)="zoomOut()" title="缩小"> - </a>
         </li>
         <li>
           <a
             href="javascript:void(0)"
             (click)="fullscreenToggle()"
-            [nz-tooltip]="isFullscreen ? '退出全屏' : '全屏'"
+            [title]="isFullscreen ? '退出全屏' : '全屏'"
           >
-            <span
-              nz-icon
-              [nzType]="isFullscreen ? 'fullscreen-exit' : 'fullscreen'"
-              nzTheme="outline"
-            ></span>
+            <span [ngClass]="isFullscreen ? 'fullscreen-exit' : 'fullscreen'">
+              {{ isFullscreen ? '⤢' : '⤡' }}
+            </span>
           </a>
         </li>
       </ul>
