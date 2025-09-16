@@ -30,5 +30,8 @@
     "lib": {
       "entryFile": "src/public-api.ts"
     }
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

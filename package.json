@@ -7,6 +7,8 @@
     "start:dev": "ng serve demo --configuration dev",
     "start:test": "ng serve demo --configuration test",
     "build": "ng build demo --configuration production",
+    "build:map": "ng build map --configuration production",
+    "prepublishOnly": "npm run build:map",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
