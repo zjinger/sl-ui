@@ -1,0 +1,39 @@
+@import "../styles/variables";
+
+:host.leaflet-map-outlet-item {
+    &.layer {
+        position: relative;
+    }
+
+    &.popup {
+        display: flex;
+        position: absolute;
+        border-radius: 5px;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+        flex-direction: column;
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            background-color: @map-popup-header-bg;
+            height: @map-popup-header-height;
+            align-items: center;
+            flex: 0 0 auto;
+            color: @map-popup-header-color;
+            border-top-left-radius: @border-radius;
+            border-top-right-radius: @border-radius;
+            padding: 0 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .content {
+            flex: 1 1 auto;
+            overflow: auto;
+            background-color: @map-popup-content-bg;
+            color: @map-popup-content-color;
+            border-bottom-left-radius: @border-radius;
+            border-bottom-right-radius: @border-radius;
+            padding: 16px;
+        }
+    }
+}

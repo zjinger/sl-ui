@@ -1,0 +1,9 @@
+<div class="header" *ngIf="componentType=='popup'" #headerRef>
+    <span class="title">{{compOptions.title}}</span>
+    <a class="close" nz-button nzType="link" nzSize="small" (click)="close()">
+        <span nz-icon nzType="close"></span>
+    </a>
+</div>
+<div class="content">
+    <ng-template slMapOutlet></ng-template>
+</div>
