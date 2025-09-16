@@ -30,11 +30,14 @@ import { SlMapOptions } from './sl-map.model';
       :host,
       .map-container {
         position: relative;
-        display: block;
         width: 100%;
         height: 100%;
+        display: block;
         overflow: hidden;
       }
+      // .map-container {
+      //   z-index: 1;
+      // }
     `,
   ],
 })

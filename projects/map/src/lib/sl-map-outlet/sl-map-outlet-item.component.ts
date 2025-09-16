@@ -1,8 +1,26 @@
-import { AfterViewInit, Component, ComponentFactoryResolver, ElementRef, Input, OnChanges, OnDestroy, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EnvironmentInjector,
+  Injector,
+  Input,
+  OnDestroy,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
 import * as L from 'leaflet';
 import { takeUntil, throttleTime } from 'rxjs/operators';
 import { resizeObservable } from '../utils';
-import { SlMapCompAbsolutePosition, SlMapCompCoordinatePosition, SlMapCompHookMethodEnum, SlMapCompOptions, SlMapCompPosition, SlMapCompStyle, SlMapDynamicComp } from './sl-map-outlet.model';
+import {
+  SlMapCompAbsolutePosition,
+  SlMapCompCoordinatePosition,
+  SlMapCompHookMethodEnum,
+  SlMapCompInstance,
+  SlMapCompOptions,
+  SlMapCompPosition,
+  SlMapDynamicComp,
+} from './sl-map-outlet.model';
 import { SlMapService } from '../sl-map.service';
 import { SlMapOutletService } from './sl-map-outlet.service';
 import { SlMapOutletDirective } from './sl-map-outlet.direcitve';
@@ -20,20 +38,22 @@ import { Subject } from 'rxjs';
  */
 @Component({
   selector: 'sl-map-outlet-item',
-   standalone: false,
+  standalone: false,
   templateUrl: './sl-map-outlet-item.component.html',
   styleUrls: ['./sl-map-outlet-item.component.less'],
   host: {
     '[class.popup]': 'componentType==="popup"',
-    '[class.layer]': 'componentType==="layer"'
-  }
+    '[class.layer]': 'componentType==="layer"',
+  },
 })
 export class SlMapOutletItemComponent implements AfterViewInit, OnDestroy {
   compOptions: SlMapCompOptions = {};
   @Input() component: SlMapDynamicComp | null = null;
-  @ViewChild(SlMapOutletDirective, { static: true }) slMapOutlet!: SlMapOutletDirective;
-  @ViewChild('headerRef', { static: false }) headerEleRef!: ElementRef<HTMLDivElement>;
-  private map: L.Map
+  @ViewChild(SlMapOutletDirective, { static: true })
+  slMapOutlet!: SlMapOutletDirective;
+  @ViewChild('headerRef', { static: false })
+  headerEleRef!: ElementRef<HTMLDivElement>;
+  private map: L.Map;
   private destroy$: Subject<void> = new Subject<void>();
   private markerGroupLayer: L.LayerGroup | null = null;
 
@@ -46,14 +66,17 @@ export class SlMapOutletItemComponent implements AfterViewInit, OnDestroy {
   }
 
   get container() {
-    return this.elementRef.nativeElement
+    return this.elementRef.nativeElement;
   }
   get containerSize() {
-    return { width: this.container.clientWidth, height: this.container.clientHeight };
+    return {
+      width: this.container.clientWidth,
+      height: this.container.clientHeight,
+    };
   }
   get mapSize() {
     const rect = this.map.getContainer().getBoundingClientRect();
-    return { width: rect.width, height: rect.height }
+    return { width: rect.width, height: rect.height };
   }
 
   constructor(
@@ -62,7 +85,8 @@ export class SlMapOutletItemComponent implements AfterViewInit, OnDestroy {
     private renderer: Renderer2,
     private outletService: SlMapOutletService,
     private utilService: SlMapOutletUtilService,
-    private cfr: ComponentFactoryResolver
+    private injector: Injector,
+    private envInjector: EnvironmentInjector
   ) {
     this.renderer.addClass(this.container, 'leaflet-map-outlet-item');
     this.map = this.mapService.map;
@@ -78,12 +102,11 @@ export class SlMapOutletItemComponent implements AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.loadComponent()
+      this.loadComponent();
       if (this.isPopup) {
         resizeObservable(this.container)
           .pipe(takeUntil(this.destroy$), throttleTime(500))
           .subscribe(() => {
-            // console.log('resizeObservable')
             this.updateCompPosition();
           });
       }
@@ -92,20 +115,24 @@ export class SlMapOutletItemComponent implements AfterViewInit, OnDestroy {
 
   close() {
     if (this.component) {
-      this.outletService.runHook(SlMapCompHookMethodEnum.DESTROY, this.component.instance!);
+      this.outletService.runHook(
+        SlMapCompHookMethodEnum.DESTROY,
+        this.component.instance!
+      );
       this.outletService.removeComponent(this.component);
     }
   }
   private updateCompPosition() {
     const position = this.compOptions.position as SlMapCompPosition;
+    console.log('updateCompPosition', this.compOptions);
     if (!position) return;
-    const { horizontalCenter, verticalCenter } = position
+    const { horizontalCenter, verticalCenter } = position;
     // 判断position的类型
     const isCoordinatePos = 'latlng' in position;
     // 根据坐标定位
     if (isCoordinatePos) {
       const coordinatePos = position as SlMapCompCoordinatePosition;
-      const { latlng, selectedMarker, zoom, center } = coordinatePos
+      const { latlng, selectedMarker, zoom, center } = coordinatePos;
       const [_offsetX, _offsetY] = coordinatePos.offset || [0, 0];
       if (zoom || center) {
         const _latlng = center ? latlng : this.map.getCenter();
@@ -117,29 +144,55 @@ export class SlMapOutletItemComponent implements AfterViewInit, OnDestroy {
       const { width: mapWidht, height: mapHeight } = this.mapSize;
       const isHorizontalCenter = horizontalCenter !== false;
       const isVerticalCenter = verticalCenter === true;
-      const { left, offsetX } = this.utilService.getHorizontalLeft(isHorizontalCenter, _offsetX, pointX, width, mapWidht);
-      const { top, offsetY } = this.utilService.getVerticalTop(isVerticalCenter, _offsetY, pointY, height, mapHeight);
+      const { left, offsetX } = this.utilService.getHorizontalLeft(
+        isHorizontalCenter,
+        _offsetX,
+        pointX,
+        width,
+        mapWidht
+      );
+      const { top, offsetY } = this.utilService.getVerticalTop(
+        isVerticalCenter,
+        _offsetY,
+        pointY,
+        height,
+        mapHeight
+      );
       this.renderer.setStyle(this.container, 'left', left + 'px');
       this.renderer.setStyle(this.container, 'top', top + 'px');
       // L.DomUtil.setPosition(this.container, L.point(left, top));
       this.map.panBy([offsetX, offsetY], { animate: false });
-      this.setSelectedMarker(latlng, selectedMarker)
+      this.setSelectedMarker(latlng, selectedMarker);
     } else {
       const absolutePos = position as SlMapCompAbsolutePosition;
       // 绝对定位：根据 top、left、right、bottom 定位
       Object.keys(absolutePos).forEach((key) => {
         const v = absolutePos[key as keyof typeof absolutePos];
         if (v != undefined) {
-          this.renderer.setStyle(this.container, key, this.utilService.getPx(v as string));
+          this.renderer.setStyle(
+            this.container,
+            key,
+            this.utilService.getPx(v as string)
+          );
         }
-      })
+      });
     }
     if (this.compOptions.draggable) {
-      this.utilService.setDraggable(this.map, this.container, this.headerEleRef.nativeElement);
+      console.log('setDraggable', this.headerEleRef);
+      console.log('setDraggable', this.container);
+      console.log('setDraggable', this.map);
+      this.utilService.setDraggable(
+        this.map,
+        this.container,
+        this.headerEleRef.nativeElement
+      );
     }
   }
 
-  private setSelectedMarker(latlng: L.LatLng, selectedMarker?: { iconSize: [number, number], iconUrl: string }) {
+  private setSelectedMarker(
+    latlng: L.LatLng,
+    selectedMarker?: { iconSize: [number, number]; iconUrl: string }
+  ) {
     if (!selectedMarker) return;
     const marker = this.utilService.genSelectedMarker(latlng, selectedMarker);
     if (!this.markerGroupLayer) {
@@ -152,12 +205,13 @@ export class SlMapOutletItemComponent implements AfterViewInit, OnDestroy {
 
   private setCompStyle() {
     const style = this.utilService.genCompStyle(this.compOptions?.style);
-    Object.keys(style).forEach(key => {
+    Object.keys(style).forEach((key) => {
       this.renderer.setStyle(this.container, key, style[key]);
     });
   }
 
   updateCompOptions(options: SlMapCompOptions) {
+    console.log('updateCompOptions', options);
     this.compOptions = options;
     if (this.isPopup) {
       this.updateCompPosition();
@@ -169,19 +223,24 @@ export class SlMapOutletItemComponent implements AfterViewInit, OnDestroy {
 
   private loadComponent() {
     if (!this.component) return;
-    const viewContainerRef = this.slMapOutlet.viewContainerRef;
-    viewContainerRef.clear();
-    const componentFactory = this.cfr.resolveComponentFactory(this.component.component);
-    const compoentRef = viewContainerRef.createComponent(componentFactory);
-    const instance = compoentRef.instance;
-    const { options } = this.component;
-    if (options) {
-      instance.options = options;
-      this.compOptions = options;
-    }
-    this.component.instance = instance;
-    this.component.componentRef = compoentRef;
-    this.outletService.runHook(SlMapCompHookMethodEnum.INIT, instance);
+    const vcr = this.slMapOutlet.viewContainerRef;
+    vcr.clear();
+    const compRef = vcr.createComponent(this.component.component, {
+      injector: this.injector,
+      environmentInjector: this.envInjector,
+    });
+    const initialOptions: SlMapCompOptions = this.component.options ?? {};
+    (compRef.instance as SlMapCompInstance).options = initialOptions;
+    console.log('loadComponent', initialOptions);
+    this.compOptions = initialOptions;
+    this.component.instance = compRef.instance as SlMapCompInstance;
+    this.component.componentRef = compRef;
+
+    this.outletService.runHook(
+      SlMapCompHookMethodEnum.INIT,
+      this.component.instance
+    );
+
     if (this.isPopup) {
       this.setCompStyle();
     }

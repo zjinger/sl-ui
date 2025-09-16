@@ -1,115 +1,119 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { uuidV4 } from '../utils';
 import {
   SlMapCompHookMethod,
   SlMapCompHookMethodEnum,
   SlMapCompHookType,
   SlMapCompHookTypeEnum,
-  SlMapCompOptions,
-  SlMapCompRef,
+  SlMapCompInstance,
   SlMapDynamicComp,
   SlMapOutletEvent,
 } from './sl-map-outlet.model';
-import { filter } from 'rxjs/operators';
+
 /**
- * @description 地图弹出组件服务，用于管理地图弹出组件的增删改查等操作
- * @author ZhangJing
- * @date 2024-08-16
- * @export
- * @class SlMapOutletService
+ * @description 地图弹出组件服务（严格泛型版）
+ * @author
  */
 @Injectable()
-export class SlMapOutletService {
-  private _cachedComps: SlMapDynamicComp[] = [];
+export class SlMapOutletService<
+  T extends SlMapCompInstance = SlMapCompInstance
+> {
+  private _cachedComps: Array<SlMapDynamicComp<T>> = [];
 
-  private _chagne$: Subject<SlMapOutletEvent> =
-    new BehaviorSubject<SlMapOutletEvent>(null!);
+  private _change$ = new Subject<SlMapOutletEvent<T>>();
 
-  get change$(): Observable<SlMapOutletEvent> {
-    return this._chagne$.asObservable().pipe(filter((ele) => ele !== null));
+  get change$(): Observable<SlMapOutletEvent<T>> {
+    return this._change$.asObservable().pipe(filter((e) => !!e));
   }
 
-  get components() {
+  get components(): Array<SlMapDynamicComp<T>> {
     return this._cachedComps;
   }
 
   constructor() {}
 
-  /**
-   * @description 添加地图弹出组件
-   * @author ZhangJing
-   * @date 2024-08-16
-   * @param {SlMapDynamicComp} component 组件
-   * @param {boolean} [force=false] 是否强制刷新：true 强制刷新会先销毁组件再重新创建，false 刷新组件，调用组件的 _onReuseInit 方法
-   * @memberof SlMapOutletService
-   */
-  addComponent(component: SlMapDynamicComp, force = false) {
-    const name = component.component.name;
-    const index = this._cachedComps.findIndex(
-      (ele) => ele.component.name === name
-    );
+  /** 新增（或刷新同 key / 同 component 的组件） */
+  addComponent(component: SlMapDynamicComp<T>, force = false): void {
+    const index = this.getIndex(component);
     if (index === -1) {
       component.uuid = uuidV4();
       this._cachedComps.push(component);
-      this._chagne$.next({
+      this._change$.next({
         type: 'add',
         component,
         list: this._cachedComps,
         index: this._cachedComps.length - 1,
       });
     } else {
-      this._refreshCompnoentByIndex(index, component, force);
+      this._refreshComponentByIndex(index, component, force);
     }
   }
 
-  removeComponent(componet: SlMapDynamicComp) {
-    const index = this.getIndex(componet);
+  removeComponent(component: SlMapDynamicComp<T>): void {
+    const index = this.getIndex(component);
     if (index > -1) {
-      this._cachedComps.splice(index, 1);
-      this._chagne$.next({
+      const removed = this._cachedComps.splice(index, 1)[0];
+      this._change$.next({
         type: 'remove',
-        component: componet,
+        component: removed,
         list: this._cachedComps,
         index,
       });
     }
   }
 
-  refreshComponent(component: SlMapDynamicComp, force = false) {
+  refreshComponent(component: SlMapDynamicComp<T>, force = false): void {
     const index = this.getIndex(component);
     if (index > -1) {
-      this._refreshCompnoentByIndex(index, component, force);
+      this._refreshComponentByIndex(index, component, force);
     }
   }
 
-  private _refreshCompnoentByIndex(
+  clearComponents(): void {
+    this._cachedComps = [];
+    this._change$.next({
+      type: 'clear',
+      list: this._cachedComps,
+      component: null as any, // 事件结构需要该字段，外部无需使用
+    });
+  }
+
+  /** ---- 内部方法 ---- */
+
+  private _refreshComponentByIndex(
     index: number,
-    newCom: SlMapDynamicComp,
+    newCom: SlMapDynamicComp<T>,
     force = false
-  ) {
+  ): void {
     const component = this._cachedComps[index];
     const options = newCom.options;
-    if (force) {
+
+    // 与方法入参合并：add/refresh 的 force 优先；若都未传可兼容 options.force
+    const doForce = force || !!options?.force;
+
+    if (doForce) {
       component.uuid = uuidV4();
     }
+
     if (component.instance) {
       component.options = options;
-      component.instance.options = options as SlMapCompOptions;
-      // 如果是强制刷新，则会触发_onReuseInit hook type 为 init, 否则执行 refresh
-      if (!force) {
+      // 非强刷 → 触发 refresh 钩子；强刷 → 交给宿主重新创建并触发 init
+      if (!doForce) {
         this.runHook(
           SlMapCompHookMethodEnum.INIT,
-          component.instance,
+          component.instance as T,
           SlMapCompHookTypeEnum.REFRESH
         );
       }
     }
-    this._refreshComponent(component, index);
+
+    this._emitRefresh(component, index);
   }
 
-  private _refreshComponent(component: SlMapDynamicComp, index: number) {
-    this._chagne$.next({
+  private _emitRefresh(component: SlMapDynamicComp<T>, index: number): void {
+    this._change$.next({
       type: 'refresh',
       component,
       list: this._cachedComps,
@@ -117,34 +121,26 @@ export class SlMapOutletService {
     });
   }
 
-  private getIndex(component: SlMapDynamicComp): number {
-    return this._cachedComps.findIndex(
-      (ele) => ele.component.name === component.component.name
-    );
+  /** key 优先；无 key 时按 component 去重 */
+  private getIndex(component: SlMapDynamicComp<T>): number {
+    return this._cachedComps.findIndex((ele) => {
+      if (component.key && ele.key) return ele.key === component.key;
+      return ele.component.name === component.component.name;
+    });
   }
 
+  /** 统一 Hook 调用 */
   runHook(
     method: SlMapCompHookMethod,
-    compThis: SlMapCompRef,
+    compThis: T,
     type: SlMapCompHookType = 'init'
-  ) {
+  ): void {
     const fn = (compThis as any)[method];
-    if (typeof fn !== 'function') {
-      return;
-    }
+    if (typeof fn !== 'function') return;
     if (method === SlMapCompHookMethodEnum.INIT) {
       fn.call(compThis, type);
     } else {
       (fn as () => void).call(compThis);
     }
-  }
-
-  clearComponents() {
-    this._cachedComps = [];
-    this._chagne$.next({
-      type: 'clear',
-      list: this._cachedComps,
-      component: null!,
-    });
   }
 }

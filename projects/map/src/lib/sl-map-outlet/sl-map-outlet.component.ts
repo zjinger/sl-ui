@@ -19,11 +19,8 @@ export class SlMapOutletComponent implements OnDestroy {
   private sub: Subscription = new Subscription();
   // map!: L.Map
   constructor(
-    private service: SlMapOutletService
-  ) // private elementRef: ElementRef<HTMLElement>,
-  // private renderer: Renderer2,
-  // private mapService: SlMapService
-  {
+    private service: SlMapOutletService // private elementRef: ElementRef<HTMLElement>, // private renderer: Renderer2, // private mapService: SlMapService
+  ) {
     this.sub.add(
       this.service.change$.subscribe((event) => {
         this.genComponents(event);
