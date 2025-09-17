@@ -35,9 +35,6 @@ import { SlMapOptions } from './sl-map.model';
         display: block;
         overflow: hidden;
       }
-      // .map-container {
-      //   z-index: 1;
-      // }
     `,
   ],
 })
