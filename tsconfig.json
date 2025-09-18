@@ -9,9 +9,8 @@
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "paths": {
-      "@sl-ui/map": [
-        "./dist/map"
-      ]
+      "@sl-ui/map": ["./dist/map"],
+      "@sl-ui/layout": ["./dist/layout"]
     },
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,

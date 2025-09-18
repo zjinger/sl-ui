@@ -8,6 +8,11 @@
       "root": "projects/map",
       "sourceRoot": "projects/map/src",
       "prefix": "sl",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "less"
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
@@ -28,10 +33,7 @@
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "tsConfig": "projects/map/tsconfig.spec.json",
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ]
+            "polyfills": ["zone.js", "zone.js/testing"]
           }
         }
       }
@@ -53,9 +55,7 @@
             "outputPath": "dist/demo",
             "index": "projects/demo/src/index.html",
             "browser": "projects/demo/src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": ["zone.js"],
             "tsConfig": "projects/demo/tsconfig.app.json",
             "inlineStyleLanguage": "less",
             "assets": [
@@ -69,9 +69,7 @@
                 "output": "/assets/"
               }
             ],
-            "styles": [
-              "projects/demo/src/styles.less"
-            ],
+            "styles": ["projects/demo/src/styles.less"],
             "scripts": []
           },
           "configurations": {
@@ -147,10 +145,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
+            "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "projects/demo/tsconfig.spec.json",
             "inlineStyleLanguage": "less",
             "assets": [
@@ -159,9 +154,7 @@
                 "input": "projects/demo/public"
               }
             ],
-            "styles": [
-              "projects/demo/src/styles.less"
-            ],
+            "styles": ["projects/demo/src/styles.less"],
             "scripts": []
           }
         },
@@ -171,12 +164,7 @@
             "configDir": "projects/demo/.storybook",
             "browserTarget": "demo:build",
             "compodoc": true,
-            "compodocArgs": [
-              "-e",
-              "json",
-              "-d",
-              "projects/demo"
-            ],
+            "compodocArgs": ["-e", "json", "-d", "projects/demo"],
             "port": 6006
           }
         },
@@ -186,13 +174,43 @@
             "configDir": "projects/demo/.storybook",
             "browserTarget": "demo:build",
             "compodoc": true,
-            "compodocArgs": [
-              "-e",
-              "json",
-              "-d",
-              "projects/demo"
-            ],
+            "compodocArgs": ["-e", "json", "-d", "projects/demo"],
             "outputDir": "dist/storybook/demo"
+          }
+        }
+      }
+    },
+    "layout": {
+      "projectType": "library",
+      "root": "projects/layout",
+      "sourceRoot": "projects/layout/src",
+      "prefix": "sl",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "less"
+        }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/layout/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/layout/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/layout/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/layout/tsconfig.spec.json",
+            "polyfills": ["zone.js", "zone.js/testing"]
           }
         }
       }
