@@ -7,9 +7,8 @@
     "start:dev": "ng serve demo --configuration dev",
     "start:test": "ng serve demo --configuration test",
     "build": "ng build demo --configuration production",
-    "build:map": "ng build map --watch",
-    "build:layout": "ng build layout --watch",
-    "prepublishOnly": "npm run build:map && npm run build:layout",
+    "build:lib": "ng build sl-ui-library --watch",
+    "prepublishOnly": "npm run build:lib",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
