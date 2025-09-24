@@ -31,4 +31,9 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./map/map.component').then((m) => m.MapComponent),
   },
+  {
+    path: 'menu',
+    loadComponent: () =>
+      import('./menu/menu.component').then((m) => m.MenuComponent),
+  },
 ];

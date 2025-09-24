@@ -183,5 +183,8 @@
       "style": "less",
       "type": "component"
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
