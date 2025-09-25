@@ -1,0 +1,16 @@
+.sl-menu {
+    display: flex;
+    flex-direction: column;
+
+    &.horizontal {
+        flex-direction: row;
+    }
+}
+
+
+
+/* 选中主项的圆角背景，接近设计稿蓝色块的感觉 */
+:host ::ng-deep sl-menu-item.active {
+    background: rgba(33, 150, 243, 0.12);
+    border-radius: 10px;
+}

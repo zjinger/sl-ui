@@ -26,7 +26,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'sl-map-zoom-control',
   standalone: true,
-  imports: [CommonModule, SlMapBaseControlComponent],
+  imports: [CommonModule],
   template: `
     <div class="sl-map-zoom">
       <ul>

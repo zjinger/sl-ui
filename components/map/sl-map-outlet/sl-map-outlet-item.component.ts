@@ -26,6 +26,7 @@ import { SlMapOutletService } from './sl-map-outlet.service';
 import { SlMapOutletDirective } from './sl-map-outlet.direcitve';
 import { SlMapOutletUtilService } from './sl-map-outlet-util.service';
 import { Subject } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 /**
  * @description 地图弹出 component 组件, 用于弹出组件或图层组件的容器
@@ -38,8 +39,7 @@ import { Subject } from 'rxjs';
  */
 @Component({
   selector: 'sl-map-outlet-item',
-  standalone: true,
-  imports: [SlMapOutletDirective],
+  imports: [CommonModule, SlMapOutletDirective],
   templateUrl: './sl-map-outlet-item.component.html',
   styleUrls: ['./sl-map-outlet-item.component.less'],
   host: {

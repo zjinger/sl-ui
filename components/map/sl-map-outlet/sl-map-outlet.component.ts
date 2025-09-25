@@ -3,11 +3,11 @@ import { Subscription } from 'rxjs';
 import { SlMapDynamicComp, SlMapOutletEvent } from './sl-map-outlet.model';
 import { SlMapOutletService } from './sl-map-outlet.service';
 import { SlMapOutletItemComponent } from './sl-map-outlet-item.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'sl-map-outlet',
-  standalone: true,
-  imports: [SlMapOutletItemComponent],
+  imports: [CommonModule, SlMapOutletItemComponent],
   template: `
     <ng-container *ngFor="let comp of list; trackBy: trackById">
       <sl-map-outlet-item [component]="comp"></sl-map-outlet-item>

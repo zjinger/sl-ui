@@ -1,0 +1,12 @@
+<sl-menu-item
+  [slIcon]="slIcon"
+  [slSubMenu]="true"
+  [slLevel]="slLevel"
+  [slOpen]="slOpen"
+  (slSelect)="toggle()"
+>
+  {{ slTitle }}
+</sl-menu-item>
+<div class="sl-sub-menu-children" *ngIf="slOpen">
+  <ng-content></ng-content>
+</div>

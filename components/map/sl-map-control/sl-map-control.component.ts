@@ -3,7 +3,6 @@ import { SlMapService } from '../sl-map.service';
 import { SlMapBaseControlComponent } from './sl-map-base-control.component';
 @Component({
   selector: 'sl-map-control',
-  standalone: true,
   template: `<ng-content></ng-content>`,
   host: {
     class: 'sl-map-control-container',

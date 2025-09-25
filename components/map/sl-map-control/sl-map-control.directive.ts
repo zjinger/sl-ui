@@ -4,7 +4,6 @@ import { SlMapBaseControlComponent } from './sl-map-base-control.component';
 
 @Directive({
   selector: '[sl-map-control]',
-  standalone: true,
 })
 export class SlMapControlDirective
   extends SlMapBaseControlComponent

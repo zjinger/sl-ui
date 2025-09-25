@@ -22,8 +22,7 @@ import { CommonModule } from '@angular/common';
  */
 @Component({
   selector: 'sl-map-coordinate-control',
-  standalone: true,
-  imports: [CommonModule, SlMapBaseControlComponent],
+  imports: [CommonModule],
   template: `<div class="sl-map-coordinate">
     <span *ngIf="latlng">{{ latlng.lat }} {{ latlng.lng }}</span>
   </div>`,
