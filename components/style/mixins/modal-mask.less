@@ -3,12 +3,12 @@
 .modal-mask() {
   pointer-events: none;
 
-  &.@{ant-prefix}-zoom-enter,
-  &.@{ant-prefix}-zoom-appear {
+  &.@{sl-prefix}-zoom-enter,
+  &.@{sl-prefix}-zoom-appear {
     transform: none; // reset scale avoid mousePosition bug
     opacity: 0;
     animation-duration: @animation-duration-slow;
-    user-select: none; // https://github.com/ant-design/ant-design/issues/11777
+    user-select: none; // https://github.com/sl-design/sl-design/issues/11777
   }
 
   &-mask {

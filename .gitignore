@@ -5,6 +5,12 @@
 /tmp
 /out-tsc
 /bazel-out
+/site
+/publish
+/lib
+/peerconnection
+
+
 
 # Node
 /node_modules

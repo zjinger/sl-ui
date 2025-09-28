@@ -1,0 +1,8 @@
+**/*.svg
+**/test.ts
+coverage/
+publish/
+schematics/
+package.json
+**/template/*
+dist

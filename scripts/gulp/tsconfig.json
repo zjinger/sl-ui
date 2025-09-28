@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "es2015",
+      "dom"
+    ],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "../../dist",
+    "esModuleInterop": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "noImplicitThis": true,
+    "noEmitOnError": true,
+    "noImplicitAny": true,
+    "target": "es5",
+    "types": [
+      "node",
+      "../build/less.d.ts"
+    ],
+    "baseUrl": "."
+  },
+  "files": [
+    "gulpfile.ts"
+  ]
+}
