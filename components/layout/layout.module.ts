@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { SlHeaderComponent } from './header/header.component';
 import { SlContentComponent } from './content/content.component';
@@ -10,7 +9,6 @@ import { SlLayoutComponent } from './layout.component';
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule,
     SlLayoutComponent,
     SlHeaderComponent,
     SlContentComponent,

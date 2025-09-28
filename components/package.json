@@ -19,9 +19,10 @@
   "peerDependencies": {
     "@angular/common": "^19.2.0",
     "@angular/core": "^19.2.0",
-    "leaflet": ">=1.9.0"
+    "leaflet": "^1.9.4"
   },
   "dependencies": {
+    "@angular/cdk": "^19.2.19",
     "tslib": "^2.3.0"
   },
   "sideEffects": false,
@@ -32,5 +33,20 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "exports": {
+    "./sl-ui.min.css": {
+      "style": "./sl-ui.min.css"
+    },
+    "./sl-ui.variable.min.css": {
+      "style": "./sl-ui.variable.min.css"
+    },
+    "./*.less": {
+      "less": "./*.less"
+    },
+    "./input/style/*": {
+      "less": "./input/style/*.less",
+      "style": "./input/style/index.min.css"
+    }
   }
 }

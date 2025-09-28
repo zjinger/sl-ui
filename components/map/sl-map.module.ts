@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import {
   SlMapControlComponent,
@@ -21,7 +20,6 @@ import { SlMapTilelayerComponent } from './sl-map-tilelayer/sl-map-tilelayer.com
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule,
     SlMapOutletComponent,
     SlMapOutletItemComponent,
     SlMapControlComponent,
