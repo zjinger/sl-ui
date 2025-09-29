@@ -4,10 +4,11 @@
   "license": "MIT",
   "scripts": {
     "start": "cross-env NODE_ENV=development gulp start:dev",
-    "start:test": "ng serve demo --configuration test",
+    "dev": "ng serve demo --configuration dev",
     "build": "ng build demo --configuration production",
     "build:release": "gulp build:release",
-    "build:watch": "gulp build:watch",
+    "build:watch": "ng build sl-ui-library --watch",
+    "build:less": "gulp build:less",
     "gulp": "gulp",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"

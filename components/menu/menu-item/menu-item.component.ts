@@ -1,12 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  EventEmitter,
-  HostBinding,
-  HostListener,
-  Input,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, HostBinding, HostListener, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'sl-menu-item',
@@ -16,8 +9,8 @@ import {
   styleUrl: './menu-item.component.less',
   host: {
     class: 'sl-menu-item',
-    '[style.paddingLeft.px]': '(slLevel  + 1) * (slInlineIndent??16)',
-  },
+    '[style.paddingLeft.px]': '(slLevel  + 1) * (slInlineIndent??16)'
+  }
 })
 export class SlMenuItemComponent {
   /** 唯一键值，用于选中态联动 */
@@ -58,7 +51,8 @@ export class SlMenuItemComponent {
   }
 
   onClick() {
-    if (!this.slDisabled) this.slSelect.emit(this.slKey);
+    if (this.slDisabled) return;
+    this.slSelect.emit(this.slKey);
   }
 
   @HostListener('keydown', ['$event'])

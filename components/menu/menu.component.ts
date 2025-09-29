@@ -1,26 +1,16 @@
-import {
-  Component,
-  ContentChildren,
-  EventEmitter,
-  Input,
-  Output,
-  QueryList,
-} from '@angular/core';
+import { Component, ContentChildren, EventEmitter, inject, Input, Output, QueryList } from '@angular/core';
 import { SlMenuItemComponent } from './menu-item/menu-item.component';
-import { SlMenuMode, SlMenuNode, SlSubMenuNode } from './menu.model';
+import { SlMenuItemNode, SlMenuModeType, SlMenuNode, SlSubMenuNode } from './menu.types';
 import { CommonModule } from '@angular/common';
 import { SlMenuNodesComponent } from './menu-nodes/menu-nodes.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'sl-menu',
   exportAs: 'slMenu',
   imports: [CommonModule, SlMenuNodesComponent],
   template: `
-    <nav
-      class="sl-menu"
-      [class.horizontal]="slMode === 'horizontal'"
-      role="menu"
-    >
+    <nav class="sl-menu" [class.horizontal]="slMode === 'horizontal'" role="menu">
       <ng-container *ngIf="slItems?.length; else projected">
         <sl-menu-nodes
           [slNodes]="slItems!"
@@ -37,11 +27,11 @@ import { SlMenuNodesComponent } from './menu-nodes/menu-nodes.component';
       </ng-template>
     </nav>
   `,
-  styleUrl: './menu.component.less',
+  styleUrl: './menu.component.less'
 })
 export class SlMenuComponent {
   /** 菜单类型：垂直/水平 */
-  @Input() slMode: SlMenuMode = 'vertical';
+  @Input() slMode: SlMenuModeType = 'vertical';
   @Input() slInlineIndent = 16; // 内联缩进
 
   /** 受控选中项 */
@@ -58,6 +48,8 @@ export class SlMenuComponent {
   @ContentChildren(SlMenuItemComponent, { descendants: true })
   private projectedItems!: QueryList<SlMenuItemComponent>;
 
+  private router = inject(Router);
+
   ngAfterContentInit(): void {
     // 如果没有传 items，才绑定投影形式的 sl-menu-item
     if (!this.slItems) {
@@ -73,13 +65,12 @@ export class SlMenuComponent {
       }
       // 计算level
       this.computeLevels(this.slItems);
-      console.log('SlMenuComponent slItems after level=', this.slItems);
     }
   }
 
   private computeLevels(nodes: SlMenuNode[], parentLevel = 0) {
     if (!nodes || nodes.length === 0) return;
-    nodes.forEach((n) => {
+    nodes.forEach(n => {
       if (n.type === 'sub') {
         (n as SlSubMenuNode).level = parentLevel;
         this.computeLevels((n as SlSubMenuNode).children, parentLevel + 1);
@@ -90,13 +81,13 @@ export class SlMenuComponent {
   }
 
   private bindProjectedItems() {
-    this.projectedItems?.forEach((it) => {
+    this.projectedItems?.forEach(it => {
       const original = it.onClick.bind(it);
       it.onClick = () => {
         original();
         this.onItemSelect(it.slKey);
       };
-      it.slSelect.subscribe((key) => this.onItemSelect(key));
+      it.slSelect.subscribe(key => this.onItemSelect(key));
     });
   }
 
@@ -110,7 +101,7 @@ export class SlMenuComponent {
 
   private refreshActive() {
     const current = this.slActiveKey;
-    this.projectedItems?.forEach((it) => (it.slActive = it.slKey === current));
+    this.projectedItems?.forEach(it => (it.slActive = it.slKey === current));
   }
 
   onNodesSelect(key: string) {
@@ -118,6 +109,14 @@ export class SlMenuComponent {
       this.slActiveKey = key;
       this.slActiveKeyChange.emit(key);
       this.refreshActive();
+      // 尝试路由跳转
+      const item = this.slItems?.find(i => (i as SlMenuItemNode).key === key) as SlMenuItemNode;
+      if (item && item.route) {
+        const { route } = item;
+        if (route) {
+          this.router.navigate(Array.isArray(route) ? route : [route]);
+        }
+      }
     }
   }
 
@@ -129,10 +128,7 @@ export class SlMenuComponent {
     this.slOpenKeysChange.emit(this.slOpenKeys.slice());
   }
 
-  private collectDefaultOpen(
-    nodes: SlMenuNode[],
-    acc: string[] = []
-  ): string[] {
+  private collectDefaultOpen(nodes: SlMenuNode[], acc: string[] = []): string[] {
     for (const n of nodes) {
       if (n.type === 'sub') {
         if ((n as SlSubMenuNode).defaultOpen && n.key) acc.push(n.key);

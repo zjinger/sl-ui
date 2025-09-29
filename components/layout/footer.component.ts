@@ -1,13 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'sl-sider',
+  selector: 'sl-footer',
   imports: [],
   standalone: true,
   template: `<ng-content></ng-content>`,
-  styleUrl: './sider.component.less',
-  host: {
-    class: 'sl-sider',
-  },
+  host: { class: 'sl-layout-footer' },
 })
-export class SlSiderComponent {}
+export class SlFooterComponent {}

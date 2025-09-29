@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { SlMapModule, SlMapOptions, SlMapOutletService } from 'ngx-sl-ui/map';
 import { MapPopupCompComponent } from './map-popup-comp/map-popup-comp.component';
-import { environment } from '../../environments/environment';
 import { CommonModule } from '@angular/common';
+import { environment } from 'demo/src/environments/environment';
 @Component({
   selector: 'app-map',
   imports: [CommonModule, SlMapModule],

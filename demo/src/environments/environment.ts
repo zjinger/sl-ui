@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  tdtKey: "ec7568fd0ef731df0691d40edd5aa9f6", // 请换成自己的天地图key, 申请地址http://lbs.tianditu.gov.cn/ --- IGNORE ---
+  tdtKey: "", // 请换成自己的天地图key, 申请地址http://lbs.tianditu.gov.cn/ --- IGNORE ---
   env: 'default'
 };
 

@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'sl-footer',
+  selector: 'sl-content',
   imports: [],
   standalone: true,
   template: `<ng-content></ng-content>`,
-  styleUrl: './footer.component.less',
-  host: { class: 'sl-footer' },
+  host: {
+    class: 'sl-layout-content',
+  },
 })
-export class SlFooterComponent {}
+export class SlContentComponent {}

@@ -9,20 +9,20 @@
 // An override for the html selector for theme prefixes
 @html-selector: html;
 
-@{html-selector} {
-    @base-primary: @blue-base;
+// @{html-selector} {
+//     @base-primary: @blue-base;
 
-    // ========= Primary Color =========
-    --@{sl-prefix}-primary-color: @blue-base;
-    // ========= Success Color =========
-    --@{sl-prefix}-success-color: @green-base;
-    // ========== Error Color ==========
-    --@{sl-prefix}-error-color: @red-base;
-    // ========= Warning Color =========
-    --@{sl-prefix}-warning-color: @yellow-base;
-    // ========== Info Color ===========
-    --@{sl-prefix}-info-color: @gray-base;
-}
+//     // ========= Primary Color =========
+//     --@{sl-prefix}-primary-color: @blue-base;
+//     // ========= Success Color =========
+//     --@{sl-prefix}-success-color: @green-base;
+//     // ========== Error Color ==========
+//     --@{sl-prefix}-error-color: @red-base;
+//     // ========= Warning Color =========
+//     --@{sl-prefix}-warning-color: @yellow-base;
+//     // ========== Info Color ===========
+//     --@{sl-prefix}-info-color: @gray-base;
+// }
 
 // -------- Colors -----------
 // >>> Primary
@@ -179,6 +179,26 @@
     12px 0 48px 16px rgba(0, 0, 0, 0.03);
 @shadow-2: 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08),
     0 9px 28px 8px rgba(0, 0, 0, 0.05);
+
+// Layout
+@layout-body-background: #f0f2f5;
+@layout-header-background: #001529;
+@layout-header-height: 64px;
+@layout-header-padding: 0 50px;
+@layout-header-color: @text-color;
+@layout-footer-padding: 24px 50px;
+@layout-footer-background: @layout-body-background;
+@layout-sider-background: @layout-header-background;
+@layout-trigger-height: 48px;
+@layout-trigger-background: #002140;
+@layout-trigger-color: #fff;
+@layout-zero-trigger-width: 36px;
+@layout-zero-trigger-height: 42px;
+// Layout light theme
+@layout-sider-background-light: #fff;
+@layout-trigger-background-light: #fff;
+@layout-trigger-color-light: @text-color;
+
 
 // Buttons
 // Inputs

@@ -52,6 +52,10 @@
     "./input/style/*": {
       "less": "./input/style/*.less",
       "style": "./input/style/index.min.css"
+    },
+    "./layout/style/*": {
+      "less": "./layout/style/*.less",
+      "style": "./layout/style/index.min.css"
     }
   }
 }

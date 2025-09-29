@@ -1,0 +1,12 @@
+<sl-layout>
+  <sl-header>Sl-UI</sl-header>
+  <sl-layout slDirection="horizontal">
+    <sl-sider>
+      <sl-menu [slItems]="menuData" [(slActiveKey)]="current" [(slOpenKeys)]="openKeys"> </sl-menu>
+    </sl-sider>
+    <sl-content>
+      <router-outlet></router-outlet>
+    </sl-content>
+  </sl-layout>
+  <sl-footer>©2025 by ZhangJing</sl-footer>
+</sl-layout>

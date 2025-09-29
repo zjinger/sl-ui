@@ -15,7 +15,6 @@ import { execTask } from '../util/task-helpers';
 
 /** Run `ng build sl-ui-library` */
 task('library:build-sl-ui', execTask('ng', ['build', 'sl-ui-library']));
-task('library:build-sl-ui:watch', execTask('ng', ['build', 'sl-ui-library', '--watch']));
 // Compile less to the public directory.
 task('library:compile-less', done => {
   compileLess().then(() => {
@@ -50,7 +49,4 @@ task(
   )
 );
 
-task(
-  'build:library:watch',
-  series('library:build-sl-ui:watch', parallel('library:compile-less', 'library:copy-resources'))
-);
+

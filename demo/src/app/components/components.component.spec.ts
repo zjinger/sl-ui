@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SlHeaderComponent } from './sl-header.component';
+import { ComponentsComponent } from './components.component';
 
-describe('SlHeaderComponent', () => {
-  let component: SlHeaderComponent;
-  let fixture: ComponentFixture<SlHeaderComponent>;
+describe('ComponentsComponent', () => {
+  let component: ComponentsComponent;
+  let fixture: ComponentFixture<ComponentsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SlHeaderComponent]
+      imports: [ComponentsComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SlHeaderComponent);
+    fixture = TestBed.createComponent(ComponentsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

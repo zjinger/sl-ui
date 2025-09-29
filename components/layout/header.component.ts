@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'sl-content',
+  selector: 'sl-header',
   imports: [],
   standalone: true,
   template: `<ng-content></ng-content>`,
-  styleUrl: './content.component.less',
   host: {
-    class: 'sl-content',
-  },
+    class: 'sl-layout-header'
+  }
 })
-export class SlContentComponent {}
+export class SlHeaderComponent {}

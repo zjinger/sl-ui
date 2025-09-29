@@ -4,7 +4,7 @@
  */
 
 /* eslint-disable import/no-unassigned-import */
-import { series, task } from 'gulp';
+import { parallel, series, task } from 'gulp';
 import './tasks/clean';
 import './tasks/default';
 // import './tasks/schematic';
@@ -16,4 +16,4 @@ task('build:release', series('clean', 'build:library'));
 
 task('start:dev', series('serve:site'));
 
-task('build:watch', series('build:library:watch'));
+task('build:less', series(parallel('library:compile-less', 'library:copy-resources', 'library:generate-less-vars')));
