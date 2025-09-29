@@ -7,7 +7,7 @@ task('help', (done) => {
   console.log(yellow('start:dev    '), 'Start development.');
   console.log(
     yellow('build:library'),
-    'Build ng-zorro-antd-lib to publish/ directory.'
+    'Build ngx-sl-ui to publish/ directory.'
   );
   console.log(
     yellow('build:release'),

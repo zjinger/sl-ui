@@ -14,4 +14,6 @@ import './tasks/site';
 
 task('build:release', series('clean', 'build:library'));
 
-task('start:dev', series('clean', 'serve:site'));
+task('start:dev', series('serve:site'));
+
+task('build:watch', series('build:library:watch'));

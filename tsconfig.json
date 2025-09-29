@@ -5,12 +5,12 @@
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
+    "paths": {
+      "ngx-sl-ui/*": ["./publish/*"]
+    },
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
-    "paths": {
-      "ngx-sl-ui/*": ["./dist/ngx-sl-ui/*"]
-    },
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,

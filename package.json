@@ -6,11 +6,9 @@
     "start": "cross-env NODE_ENV=development gulp start:dev",
     "start:test": "ng serve demo --configuration test",
     "build": "ng build demo --configuration production",
-    "build:lib:dev": "ng build sl-ui-library --watch",
-    "build:gulp": "gulp build:release",
-    "build:gulp:lib": "gulp build:library",
+    "build:release": "gulp build:release",
+    "build:watch": "gulp build:watch",
     "gulp": "gulp",
-    "prepublishOnly": "npm run build:lib",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

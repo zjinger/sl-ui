@@ -23,6 +23,7 @@
             "polyfills": ["zone.js"],
             "tsConfig": "demo/tsconfig.app.json",
             "inlineStyleLanguage": "less",
+            "allowedCommonJsDependencies": ["leaflet"],
             "assets": [
               {
                 "glob": "**/*",

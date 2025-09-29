@@ -14,7 +14,7 @@
     "enableResourceInlining": true,
     "strictMetadataEmit": true,
     "flatModuleOutFile": "index.js",
-    "flatModuleId": "sl-ui",
+    "flatModuleId": "ngx-sl-ui",
     "skipTemplateCodegen": true
   }
 }

@@ -15,9 +15,9 @@ import { execTask } from '../util/task-helpers';
 
 /** Run `ng build sl-ui-library` */
 task('library:build-sl-ui', execTask('ng', ['build', 'sl-ui-library']));
-
+task('library:build-sl-ui:watch', execTask('ng', ['build', 'sl-ui-library', '--watch']));
 // Compile less to the public directory.
-task('library:compile-less', (done) => {
+task('library:compile-less', done => {
   compileLess().then(() => {
     copyStylesToSrc();
     done();
@@ -25,31 +25,32 @@ task('library:compile-less', (done) => {
 });
 
 // Compile less to the public directory.
-task('library:generate-less-vars', (done) => {
+task('library:generate-less-vars', done => {
   generateLessVars();
   done();
 });
 
 // Copies README.md file to the public directory.
 task('library:copy-resources', () => {
-  return src([
-    join(buildConfig.projectDir, 'README.md'),
-    join(buildConfig.componentsDir),
-  ]).pipe(dest(join(buildConfig.publishDir)));
+  return src([join(buildConfig.projectDir, 'README.md'), join(buildConfig.componentsDir)]).pipe(
+    dest(join(buildConfig.publishDir))
+  );
 });
 
 // Copies files without ngcc to lib folder.
-task('library:copy-libs', () => {
-  return src([join(buildConfig.publishDir, '**/*')]).pipe(
-    dest(join(buildConfig.libDir))
-  );
-});
+// task('library:copy-libs', () => {
+//   return src([join(buildConfig.publishDir, '**/*')]).pipe(dest(join(buildConfig.libDir)));
+// });
 
 task(
   'build:library',
   series(
     'library:build-sl-ui',
-    parallel('library:compile-less', 'library:copy-resources'),
-    'library:copy-libs'
+    parallel('library:compile-less', 'library:copy-resources', 'library:generate-less-vars')
   )
+);
+
+task(
+  'build:library:watch',
+  series('library:build-sl-ui:watch', parallel('library:compile-less', 'library:copy-resources'))
 );

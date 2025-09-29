@@ -1,6 +1,5 @@
 {
   "lib": {
-    "entryFile": "public-api.ts",
-    "styleIncludePaths": ["styles"]
+    "entryFile": "public-api.ts"
   }
 }
