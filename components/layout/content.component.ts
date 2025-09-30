@@ -1,12 +1,12 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'sl-content',
-  imports: [],
-  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   template: `<ng-content></ng-content>`,
   host: {
-    class: 'sl-layout-content',
-  },
+    class: 'sl-layout-content'
+  }
 })
 export class SlContentComponent {}

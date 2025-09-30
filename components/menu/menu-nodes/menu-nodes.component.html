@@ -1,13 +1,9 @@
 <ng-container *ngFor="let n of slNodes; trackBy: trackByKey">
   <!-- 分隔线 -->
-  <div
-    *ngIf="n.type === 'divider'"
-    class="sl-menu-divider"
-    [class]="n.className"
-  ></div>
+  <div *ngIf="n.type === 'divider'" class="sl-menu-divider" [class]="n.className"></div>
 
   <!-- 普通项 -->
-  <sl-menu-item
+  <!-- <sl-menu-item
     *ngIf="n.type === 'item'"
     [slKey]="n.key!"
     [slIcon]="n.icon"
@@ -17,10 +13,10 @@
     [slLevel]="n.level || 0"
   >
     {{ n.label }}
-  </sl-menu-item>
+  </sl-menu-item> -->
 
   <!-- 子菜单（支持递归） -->
-  <sl-sub-menu
+  <!-- <sl-sub-menu
     *ngIf="n.type === 'sub'"
     [slKey]="n.key!"
     [slTitle]="n.label"
@@ -37,5 +33,5 @@
       (slOpenChange)="slOpenChange.emit($event)"
     >
     </sl-menu-nodes>
-  </sl-sub-menu>
+  </sl-sub-menu> -->
 </ng-container>

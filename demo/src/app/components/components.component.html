@@ -1,8 +1,11 @@
-<sl-layout>
+<sl-layout class="container">
   <sl-header>Sl-UI</sl-header>
-  <sl-layout slDirection="horizontal">
+  <sl-layout>
     <sl-sider>
-      <sl-menu [slItems]="menuData" [(slActiveKey)]="current" [(slOpenKeys)]="openKeys"> </sl-menu>
+      <!-- <sl-menu [slItems]="menuData" [(slActiveKey)]="current" [(slOpenKeys)]="openKeys"> </sl-menu> -->
+      <ul sl-menu>
+        <li></li>
+      </ul>
     </sl-sider>
     <sl-content>
       <router-outlet></router-outlet>

@@ -20,12 +20,12 @@ import { SlMenuModule, SlMenuNode } from 'ngx-sl-ui/menu';
     </sl-menu> -->
     <!-- <br /> -->
     <div style="width: 200px;background: #f0f0f0;">
-      <sl-menu
+      <!-- <sl-menu
         [slItems]="menuData"
         [(slActiveKey)]="current1"
         [(slOpenKeys)]="openKeys"
       >
-      </sl-menu>
+      </sl-menu> -->
     </div>
     <p>active = {{ current1 }}</p>
     <p>openKeys = {{ openKeys | json }}</p>

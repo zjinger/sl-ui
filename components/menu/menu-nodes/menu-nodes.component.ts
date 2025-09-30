@@ -1,16 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SlMenuNode } from '../menu.model';
-import { SlMenuItemComponent } from '../menu-item/menu-item.component';
-import { SlSubMenuComponent } from '../sub-menu/sub-menu.component';
+import { SlMenuItemComponent } from '../menu-item.component';
+import { SlSubmenuComponent } from '../submenu.component';
 @Component({
   selector: 'sl-menu-nodes',
-  imports: [CommonModule, SlMenuItemComponent, SlSubMenuComponent],
+  imports: [CommonModule, SlMenuItemComponent, SlSubmenuComponent],
   templateUrl: './menu-nodes.component.html',
-  styleUrl: './menu-nodes.component.less',
+  styleUrl: './menu-nodes.component.less'
 })
 export class SlMenuNodesComponent {
-  
   @Input() slNodes: SlMenuNode[] = [];
 
   /** 当前选中的 key（由最外层 <sl-menu> 控制） */
@@ -28,6 +27,5 @@ export class SlMenuNodesComponent {
     return !!key && this.slOpenKeys.includes(key);
   }
 
-  trackByKey = (_: number, n: SlMenuNode) =>
-    'key' in n && n.key ? n.key : n.type;
+  trackByKey = (_: number, n: SlMenuNode) => ('key' in n && n.key ? n.key : n.type);
 }

@@ -9,21 +9,6 @@
 // An override for the html selector for theme prefixes
 @html-selector: html;
 
-// @{html-selector} {
-//     @base-primary: @blue-base;
-
-//     // ========= Primary Color =========
-//     --@{sl-prefix}-primary-color: @blue-base;
-//     // ========= Success Color =========
-//     --@{sl-prefix}-success-color: @green-base;
-//     // ========== Error Color ==========
-//     --@{sl-prefix}-error-color: @red-base;
-//     // ========= Warning Color =========
-//     --@{sl-prefix}-warning-color: @yellow-base;
-//     // ========== Info Color ===========
-//     --@{sl-prefix}-info-color: @gray-base;
-// }
-
 // -------- Colors -----------
 // >>> Primary
 @primary-color: ~'var(--@{sl-prefix}-primary-color)';
@@ -61,6 +46,7 @@
 @text-color-secondary: #666666;
 @text-color-inverse: @white;
 @icon-color: inherit;
+@text-color-dark: @white;
 @font-variant-base: tabular-nums;
 @font-feature-settings-base: 'tnum';
 @font-size-base: 14px;
@@ -127,20 +113,20 @@
 @link-focus-outline: 0;
 
 // Animation
-// @ease-base-out: cubic-bezier(0.7, 0.3, 0.1, 1);
-// @ease-base-in: cubic-bezier(0.9, 0, 0.3, 0.7);
-// @ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
-// @ease-in: cubic-bezier(0.55, 0.055, 0.675, 0.19);
-// @ease-in-out: cubic-bezier(0.645, 0.045, 0.355, 1);
-// @ease-out-back: cubic-bezier(0.12, 0.4, 0.29, 1.46);
-// @ease-in-back: cubic-bezier(0.71, -0.46, 0.88, 0.6);
-// @ease-in-out-back: cubic-bezier(0.71, -0.46, 0.29, 1.46);
-// @ease-out-circ: cubic-bezier(0.08, 0.82, 0.17, 1);
-// @ease-in-circ: cubic-bezier(0.6, 0.04, 0.98, 0.34);
-// @ease-in-out-circ: cubic-bezier(0.78, 0.14, 0.15, 0.86);
-// @ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
-// @ease-in-quint: cubic-bezier(0.755, 0.05, 0.855, 0.06);
-// @ease-in-out-quint: cubic-bezier(0.86, 0, 0.07, 1);
+@ease-base-out: cubic-bezier(0.7, 0.3, 0.1, 1);
+@ease-base-in: cubic-bezier(0.9, 0, 0.3, 0.7);
+@ease-out: cubic-bezier(0.215, 0.61, 0.355, 1);
+@ease-in: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+@ease-in-out: cubic-bezier(0.645, 0.045, 0.355, 1);
+@ease-out-back: cubic-bezier(0.12, 0.4, 0.29, 1.46);
+@ease-in-back: cubic-bezier(0.71, -0.46, 0.88, 0.6);
+@ease-in-out-back: cubic-bezier(0.71, -0.46, 0.29, 1.46);
+@ease-out-circ: cubic-bezier(0.08, 0.82, 0.17, 1);
+@ease-in-circ: cubic-bezier(0.6, 0.04, 0.98, 0.34);
+@ease-in-out-circ: cubic-bezier(0.78, 0.14, 0.15, 0.86);
+@ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
+@ease-in-quint: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+@ease-in-out-quint: cubic-bezier(0.86, 0, 0.07, 1);
 
 // Border color
 @border-color-base: hsv(0, 0, 85%); // base border outline a component
@@ -180,9 +166,32 @@
 @shadow-2: 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08),
     0 9px 28px 8px rgba(0, 0, 0, 0.05);
 
+// z-index list, order by `z-index`
+@zindex-badge: auto;
+@zindex-table-fixed: 2;
+@zindex-affix: 10;
+@zindex-back-top: 10;
+@zindex-picker-panel: 10;
+@zindex-popup-close: 10;
+@zindex-modal: 1000;
+@zindex-modal-mask: 1000;
+@zindex-message: 1010;
+@zindex-notification: 1010;
+@zindex-popover: 1030;
+@zindex-dropdown: 1050;
+@zindex-picker: 1050;
+@zindex-popoconfirm: 1060;
+@zindex-tooltip: 1070;
+@zindex-image: 1080;
+
+// Animation
+@animation-duration-slow: 0.3s; // Modal
+@animation-duration-base: 0.2s;
+@animation-duration-fast: 0.1s; // Tooltip
+
 // Layout
 @layout-body-background: #f0f2f5;
-@layout-header-background: #001529;
+@layout-header-background: #fff;
 @layout-header-height: 64px;
 @layout-header-padding: 0 50px;
 @layout-header-color: @text-color;
@@ -199,6 +208,32 @@
 @layout-trigger-background-light: #fff;
 @layout-trigger-color-light: @text-color;
 
+// Menu
+// ---
+@menu-inline-toplevel-item-height: 40px;
+@menu-item-height: 40px;
+@menu-item-group-height: @line-height-base;
+@menu-collapsed-width: 80px;
+@menu-bg: @component-background;
+@menu-popup-bg: @component-background;
+@menu-item-color: @text-color;
+@menu-inline-submenu-bg: @background-color-light;
+@menu-highlight-color: @primary-color;
+// @menu-highlight-danger-color: @error-color;
+@menu-item-active-bg: @primary-color;
+// @menu-item-active-danger-bg: @red-1;
+@menu-item-active-border-width: 3px;
+@menu-item-group-title-color: @text-color-secondary;
+@menu-item-vertical-margin: 4px;
+@menu-item-font-size: @font-size-base;
+@menu-item-boundary-margin: 8px;
+@menu-item-padding-horizontal: 20px;
+@menu-item-padding: 0 @menu-item-padding-horizontal;
+@menu-horizontal-line-height: 46px;
+@menu-icon-margin-right: 10px;
+@menu-icon-size: @menu-item-font-size;
+@menu-icon-size-lg: @font-size-lg;
+@menu-item-group-title-font-size: @menu-item-font-size;
 
 // Buttons
 // Inputs
